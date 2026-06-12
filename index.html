@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QURTZVINYL</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+
+  <style>
+    /* На всякий случай */
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+    
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #ffffff;
+      color: #000000;
+      font-optical-sizing: auto;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 1.3;
+      font-size: 21px;
+    }  
+
+    /* Первый блок */
+    .head_block {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      max-width: 1023px;
+      margin: 0 0 60px 50px;
+      font-size: 46px;
+    }
+    .head_block p:last-child{
+      text-align: end;
+      background-color: #E0FB52;
+      width: 551px;
+      overflow-wrap: break-word;
+    }
+    .about_us {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1820px;
+      margin: 0 0 0 50px;
+      gap: 40px;
+    }
+    .kart_about {
+      display: flex;
+      flex-direction: column;
+      width: 425px;
+      height: 318px;
+    }
+    .kart_about p {
+      margin: 0 0 58px 30px;
+      font-size: 26px;
+      font-weight: 600;
+    }
+    .kart_about p:last-child {
+      margin: 0 0 30px 30px;
+      font-size: 21px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    .kart_about img {
+      margin: 30px 0 45px 308px;
+    }
+    .kart_about img[alt="Грузовик"] {
+        width: 97px;
+        height: 54px;
+        margin: 30px 0 45px 308px;
+      }
+
+    /* Второй блок */
+    .section {
+      max-width: 1820px;
+      margin: 130px 50px;
+    }
+    .section h2{
+      font-size: 46px;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin: 0 0 40px 0;
+    }
+
+    /* Слайдер */
+    .slider {
+      display: flex;
+      flex-direction: row;
+      padding-top: 0;
+      align-items: flex-start;
+    }
+    .btnSlider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0 245px 0 80px;
+    }
+    .nav_btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #000000;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, color .2s;
+    }
+    .nav_btn:hover, .nav_btn.swiper-button-disabled {
+      opacity: .35;
+    }
+    .activation {
+      background: #000000;
+      color: #ffffff;
+    }
+    .swiper {
+      overflow: hidden;
+    }
+    .swiper-slide {
+      width: auto;
+    }
+    .product_card {
+      width: 425px;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }    
+    .product_card_media {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      cursor: pointer;
+    }
+    .product_card_media img {
+      position: absolute;
+      width: 100%;
+      height: 590px;
+      transition: opacity .35s;
+      border-radius: 15px 15px 0 0;
+    }
+    .product_card_media img.img_secondary {
+      opacity: 0;
+    }
+    @media (hover: hover) {
+      .product_card_media:hover img.img_primary {
+        opacity: 0;
+      }
+      .product_card_media:hover img.img_secondary {
+        opacity: 1;
+      }
+    }
+
+    /* Стикеры */
+    .product_card_stickers {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 20px;
+      flex-direction: row;
+      align-items: center;
+    }
+    .sticker {
+      width: 61px;
+      height: 61px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sticker_sale {
+      background: #E0FB52;
+      font-size: 26px;
+    }
+    .sticker_new  {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* Точки */
+    .product_card_dots {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #ffffff;
+      transition: background .2s;
+    }
+    .dot.active {
+      background: #ffffff;
+    }
+
+    /* Информация в карточке */
+    .product_card_body {
+      padding: 40px 20px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .product_card_name {
+      text-transform: uppercase;
+      margin: 0 0 20px 0;
+    }
+    .product_card_meta {
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.5);
+      text-align: end;
+    }
+    .product_card_price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 30px;
+    }
+    .price_old {
+      color: rgba(0, 0, 0, 0.3);
+      text-decoration: line-through;
+    }
+    .price_discount {
+      display: flex;
+      justify-content: center;
+      align-self: self-end;
+      font-size: 18px;
+      width: 55px;
+      color: #ffffff;
+      background: rgb(221, 68, 34);
+      border-radius: 10px;
+      padding: 1px 5px;
+    }
+    .price_not_discount{
+      display: flex;
+      justify-content: center;
+      align-self: self-end;
+      font-size: 18px;
+      margin: 0 0 20px 0;
+      width: 55px;
+      color: #ffffff;
+      background: rgb(221, 68, 34);
+      border-radius: 10px;
+      padding: 1px 5px;
+    }
+    .product_card_btn {
+      padding: 15px 30px;
+      border: 1.5px solid #000000;
+      background: transparent;
+      font-size: 21px;
+      line-height: 1.5;
+      font-weight: 400;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      border-radius: 50px;
+    }
+    .product_card_btn:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    /* Точки для всего слайда*/
+    .swiper-pagination {
+    position: relative;
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    }
+    .swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0px;
+    background: transparent;
+    border: 1px solid #000000;
+    transition: background .2s;
+    }
+    .swiper-pagination-bullet-active {
+    background: #000000;
+    }
+
+
+
+    /* Мобилки */
+    @media (min-width: 360px) and (max-width: 767px) {
+      /* Первый блок */
+      .head_block {
+        max-width: 277px;
+        margin: 0 0 30px 13px;
+        font-size: 23px;
+      }
+      .head_block p:last-child{
+        width: 277px;
+        text-align: start;
+      }
+      .about_us {
+        flex-direction: column;
+        max-width: 328px;
+        margin: 0 0 0 16px;
+        gap: 20px;
+      }
+      .kart_about {
+        width: 328px;
+        height: 173px;
+      }
+      .kart_about p {
+        margin: 0 0 16px 20px;
+        font-size: 17px;
+      }
+      .kart_about p:last-child {
+        margin: 0 0 20px 20px;
+        font-size: 14px;
+      }
+      .kart_about img {
+        margin: 20px 0 16px 265px;
+        width: 40px;
+        height: 40px;
+      }
+      .kart_about img[alt="Грузовик"] {
+          width: 67px;
+          height: 37px;
+          margin: 20px 0 16px 241px;
+        }
+
+      /* Второй блок */
+      .section {
+        max-width: 328px;
+        margin: 60px 16px;
+      }
+      .section h2{
+        font-size: 23px;
+        margin: 0px;
+      }
+      .flex_table_btn{
+        display: flex;
+        flex-direction: row;
+        gap: 122px;
+        margin: 0 0 20px 0;
+      }
+
+      /* Слайдер */
+      .slider {
+        flex-direction: column;
+      }
+      .btnSlider {
+        gap: 16px;
+        margin: 0px;
+      }
+      .nav_btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #000000;
+      }
+      .activation {
+        background: #ffffff;
+        color: #000000;
+      }
+      .swiper-slide {
+        width: auto;
+      }
+      .product_card {
+        width: 156px;
+      }    
+      .product_card_media {
+        position: relative;
+        aspect-ratio: 3 / 4;
+        cursor: pointer;
+      }
+      .product_card_media img {
+        height: 217px;
+      }
+
+      /* Стикеры */
+      .product_card_stickers {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+      }
+      .sticker {
+        width: 29px;
+        height: 29px;
+      }
+      .sticker_sale {
+        font-size: 12px;
+      }
+      .sticker_new  {
+        font-size: 12px;
+      }
+
+      /* Точки */
+      .product_card_dots {
+        gap: 12px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      /* Информация в карточке */
+      .product_card_body {
+        padding: 20px 10px 10px 10px ;
+      }
+      .product_card_name {
+        margin: 0 0 33px 0;
+        font-size: 14px;
+      }
+      .product_card_meta {
+        font-size: 12px;
+      }
+      .product_card_price {
+        gap: 4px;
+        font-size: 14px;
+      }
+      .price_discount {
+        font-size: 12px;
+        width: 30px;
+        padding: 1px 5px;
+      }
+      .product_card_btn {
+        padding: 7px 45px;
+        border: 1px solid #000000;
+        font-size: 14px;
+      }
+
+      /* Точки для всего слайда*/
+      .swiper-pagination {
+      margin-top: 20px;
+      gap: 20px;
+      }
+      .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      margin: 0px;
+      border: 1px solid #000000;
+      }
+    }
+
+
+
+    
+     /* Планшеты */
+    @media (min-width: 768px) and (max-width: 1023px){
+      /* Первый блок */
+      .head_block {
+        max-width: 677px;
+        margin: 0 0 40px 39px;
+        font-size: 36px;
+      }
+      .head_block p:last-child{
+        width: 431px;
+      }
+      .about_us {
+        flex-direction: row;
+        max-width: 690px;
+        margin: 0 39px 90px 39px;
+        gap: 30px;
+      }
+      .kart_about {
+        width: 330px;
+        height: 255px;
+      }
+      .kart_about p {
+        margin: 0 0 20px 20px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .kart_about p:last-child {
+        margin: 0 0 20px 20px;
+        font-size: 20px;
+      }
+      .kart_about img {
+        margin: 20px 0 20px 260px;
+        width: 50px;
+        height: 50px;
+      }
+      .kart_about img[alt="Грузовик"] {
+        margin: 20px 0 23px 226px;
+        width: 84px;
+        height: 47px;
+      }
+
+      /* Второй блок */
+      .section {
+        max-width: 690px;
+        margin: 0 39px 90px 39px;
+      }
+      .section h2{
+        font-size: 36px;
+        margin: 0px;
+      }
+      .flex_table_btn{
+        display: flex;
+        flex-direction: row;
+        margin: 0 0 40px 0;
+      }
+
+      /* Слайдер */
+      .slider {
+        display: flex;
+        flex-direction: column;
+        max-width: 690px;
+      }
+      .btnSlider {
+        gap: 16px;
+        margin: 0px;
+        padding: 0 0 0 403px;
+      }
+      .nav_btn {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #000000;
+      }
+      .activation {
+        background: #ffffff;
+        color: #000000;
+      }
+      .swiper-wrapper{
+        gap: 4px;
+      }
+      .swiper-slide {
+        width: 330px;
+      }
+      .product_card {
+        width: 330px;
+      }  
+      .product_card_media img {
+        height: 458px;
+      }
+
+      /* Стикеры */
+      .product_card_stickers {
+        gap: 16px;
+      }
+      .sticker {
+        width: 59px;
+        height: 59px;
+      }
+      .sticker_sale {
+        font-size: 24px;
+      }
+      .sticker_new  {
+        font-size: 20px;
+      }
+
+      /* Информация в карточке */
+      .product_card_body {
+        padding: 34px 20px 14px;
+      }
+      .product_card_name {
+        margin: 0 0 30px 0;
+        font-size: 20px;
+      }
+      .product_card_meta {
+        font-size: 17px;
+      }
+      .product_card_price {
+        gap: 8px;
+        font-size: 24px;
+      }
+      .price_discount {
+        font-size: 17px;
+        border-radius: 15px;
+      }
+      .product_card_btn {
+        padding: 13px 111.5px;
+        border: 1px solid #000000;
+        font-size: 20px;
+      }
+
+      /* Точки для всего слайда*/
+      .swiper-pagination {
+      margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<section>
+  <div class="head_block">
+    <p style="overflow-wrap: break-word;" >QURTZVINYL: ГАРАНТИРОВАННЫЕ</p>
+    <span style="justify-items: end;" ><p>ВЫГОДЫ ДЛЯ КЛИЕНТОВ</p></span>
+  </div> 
+  <div class="about_us">
+    <div class="kart_about">
+      <img src="Delivery.png" alt="Доставка" style="width: 57px; height: 57px;">
+      <p style="margin: 0 0 24px 30px;">БЕСПЛАТНАЯ ДОСТАВКА ПО МОСКВЕ</p>
+      <p>Для заказов от 70 000 ₽<br>или 60м2 + 40руб/км за МКАД</p>
+    </div>
+    <div class="kart_about">
+      <img src="Worker.png" alt="Рабочий" style="width: 59px; height: 59px;">
+      <p>УКЛАДКА ОТ 400 ₽/м²</p>
+      <p>Оказываем полный комплекс услуг по укладке напольных покрытий</p>
+    </div>
+    <div class="kart_about">
+      <img src="Return Delivery.png" alt="Возврат" style="width: 62px; height: 57px;">
+      <p>ПРОСТОЙ ВОЗВРАТ ТОВАРА</p>
+      <p>(Который вам не пригодится)</p>
+    </div>
+    <div class="kart_about" style="background-color: #E0FB52; border-radius: 15px;">
+      <img src="delivery truck.png" alt="Грузовик">
+      <p>ДОСТАВКА В ТЕЧЕНИЕ 1 ДНЯ</p>
+      <p>В течение четырёх часов<br>или в любое удобное время</p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="slider">
+    <div class="flex_table_btn">
+      <h2>НОВИНКИ</h2>
+      <div class="btnSlider">
+        <button class="nav_btn" id="btnPrev" aria-label="Назад"><</button>
+        <button class="nav_btn activation" id="btnNext" aria-label="Вперёд">></button>
+      </div>
+    </div>
+    <div class="swiper" id="novelSwiper">
+      <div class="swiper-wrapper" id="card_product"></div>
+      <div class="swiper-pagination" id="sliderPagination">sdfsdf</div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+const DEFAULT_PRODUCTS = [
+  {
+    id: 1,
+    name: "SPC ЛАМИНАТ MODULEO LAYRED LAUREL OAK 51864",
+    class: "33 класс 6 мм",
+    price: 1890,
+    oldPrice: 2240,
+    addedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 дней назад
+    images: ["lamin.png", "laminat.png"]
+  },
+  {
+    id: 2,
+    name: "SPC ЛАМИНАТ MODULEO LAYRED CANTERA 46930",
+    class: "33 класс 6 мм",
+    price: 1790,
+    oldPrice: 2170,
+    addedAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(), // 20 дней назад
+    images: ["parket.png", "lamin.png"]
+  },
+  {
+    id: 3,
+    name: "SPC ЛАМИНАТ MODULEO LAYRED MOUNTAIN OAK 56275",
+    class: "33 класс 6 мм",
+    price: 1850,
+    oldPrice: 2030,
+    addedAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(), // 40 дней — не новинка
+    images: ["laminat.png", "parket.png"]
+  },
+  {
+    id: 4,
+    name: "SPC ЛАМИНАТ MODULEO LAYRED MOUNTAIN OAK 56275",
+    class: "33 класс 6 мм",
+    price: 1850,
+    oldPrice: 1850,
+    addedAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(),
+    images: ["laminat.png", "parket.png"]
+  },
+  {
+    id: 5,
+    name: "SPC ЛАМИНАТ MODULEO LAYRED MOUNTAIN OAK 56275",
+    class: "33 класс 6 мм",
+    price: 2030,
+    oldPrice: 2030,
+    addedAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(),
+    images: ["laminat.png", "parket.png"]
+  }
+];
+
+function loadProducts() {
+  const saved = localStorage.getItem('qv_products');
+  if (saved) {
+    return JSON.parse(saved);
+  }
+  localStorage.setItem('qv_products', JSON.stringify(DEFAULT_PRODUCTS));
+  return DEFAULT_PRODUCTS;
+}
+
+const products = loadProducts();
+
+const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+// Проверяем на свежесть карточки/товара
+function isNew(product) {
+  return Date.now() - new Date(product.addedAt).getTime() <= ONE_MONTH_MS;
+}
+// Есть ли вообще у нас скидка
+function hasSale(product) {
+  return product.oldPrice && product.oldPrice > product.price;
+}
+// Вычисляем скидочку
+function calcDiscount(product) {
+  if (!hasSale(product)){
+    return null;
+  }
+  return Math.round((1 - product.price / product.oldPrice) * 100);
+}
+// Делаем красивую цену
+function formatPrice(n) {
+  return n.toLocaleString('ru-RU') + ' ₽';
+}
+
+const kart = document.getElementById('card_product');
+// Делаем сами карточки
+products.forEach(p => {
+  const discount = calcDiscount(p);
+  const newItem = isNew(p);
+  const sale = hasSale(p);
+
+  const slide = document.createElement('div');
+  slide.className = 'swiper-slide';
+
+  slide.innerHTML = `
+    <div class="product_card">
+      <div class="product_card_media" data-id="${p.id}">
+        <img class="img_primary" src="${p.images[0]}">
+        <img class="img_secondary" src="${p.images[1]}">
+
+        <div class="product_card_stickers">
+          ${sale ? '<div class="sticker sticker_sale">%</div>' : ''}
+          ${newItem ? '<div class="sticker sticker_new">New</div>' : ''}
+        </div>
+
+        <div class="product_card_dots">
+          <span class="dot active" data-img="0"></span>
+          <span class="dot" data-img="1"></span>
+        </div>
+      </div>
+
+      <div class="product_card_body">
+        <div class="product_card_name">${p.name}</div>
+        <div class="product_card_meta">${p.class}</div>
+
+        <div class="product_card_price" >
+          <span class="price_current">${formatPrice(p.price)}</span>
+          ${sale ? `<span class="price_old">${formatPrice(p.oldPrice)}</span>` : ''}
+          <span class="price_unit" ${discount == null ? `style="margin: 0 0 45px 0;"` : ''}>/ м²</span>
+        </div>
+        ${discount !== null ? `<span class="price_not_discount">−${discount}%</span>` : ''}
+        <button class="product_card_btn">Купить</button>
+      </div>
+    </div>
+  `;
+
+  kart.appendChild(slide);
+});
+
+document.querySelectorAll('.product_card_media').forEach(media => {
+  const primary = media.querySelector('.img_primary');
+  const secondary = media.querySelector('.img_secondary');
+  const dots = media.querySelectorAll('.dot');
+
+  let touchStartX = 0;
+  let current = 0; // 0 = первое фото, 1 = второе
+
+  // Показываем фото, которое выбрали
+  function showImage(idx) {
+    current = idx;
+    primary.style.opacity = idx === 0 ? '1' : '0';
+    secondary.style.opacity = idx === 1 ? '1' : '0';
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  // Клик по точкам
+  dots.forEach(dot => {
+    dot.addEventListener('click', e => {
+      e.stopPropagation();
+      showImage(+dot.dataset.img);
+    });
+  });
+
+  // Свайп на мобилке
+  media.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+  media.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      showImage(dx < 0 ? 1 : 0);
+    }
+  }, { passive: true });
+});
+
+const swiper = new Swiper('#novelSwiper', {
+  slidesPerView: 'auto',
+  spaceBetween: 16,
+  grabCursor: true,
+  navigation: {
+    nextEl: '#btnNext',
+    prevEl: '#btnPrev',
+    disabledClass: 'nav_btn_disabled'
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+    dynamicBullets: false
+  }
+});
+
+document.getElementById('btnPrev').addEventListener('click', () => swiper.slidePrev());
+document.getElementById('btnNext').addEventListener('click', () => swiper.slideNext());
+</script>
+</body>
+</html>
