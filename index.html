@@ -124,6 +124,7 @@
       color: #ffffff;
     }
     .swiper {
+      width: 100%;
       overflow: hidden;
     }
     .swiper-slide {
@@ -631,7 +632,7 @@
     </div>
     <div class="swiper" id="novelSwiper">
       <div class="swiper-wrapper" id="card_product"></div>
-      <div class="swiper-pagination" id="sliderPagination">sdfsdf</div>
+      <div class="swiper-pagination" id="sliderPagination"></div>
     </div>
   </div>
 </section>
@@ -798,9 +799,26 @@ document.querySelectorAll('.product_card_media').forEach(media => {
 });
 
 const swiper = new Swiper('#novelSwiper', {
-  slidesPerView: 'auto',
   spaceBetween: 16,
   grabCursor: true,
+  simulateTouch: true,
+  breakpoints: {
+    // Мобилки (0 - 767px)
+    0: {
+      slidesPerView: 'auto',
+      spaceBetween: 16
+    },
+    // Планшеты (768px - 1023px)
+    768: {
+      slidesPerView: 'auto',
+      spaceBetween: 20
+    },
+    // Десктопы (1024px и выше)
+    1024: {
+      slidesPerView: 'auto',
+      spaceBetween: 20
+    }
+  },
   navigation: {
     nextEl: '#btnNext',
     prevEl: '#btnPrev',
