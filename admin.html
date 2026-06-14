@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }    
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+    }    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }    
+    h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+    
+    /* Форма добавления */
+    .form-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }    
+    .form-group {
+      margin-bottom: 20px;
+    }    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 16px;
+    }    
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }    
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }    
+    .btn-primary {
+      background: #000;
+      color: white;
+    }    
+    .btn-primary:hover {
+      background: #333;
+    }    
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }    
+    .btn-danger:hover {
+      background: #c82333;
+    }    
+    .btn-edit {
+      background: #ffc107;
+      color: #000;
+    }    
+    .btn-edit:hover {
+      background: #e0a800;
+    }
+    
+    /* Таблица товаров */
+    .products-table {
+      background: white;
+      border-radius: 15px;
+      overflow-x: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }    
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+    }    
+    .product-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    }    
+    .actions {
+      display: flex;
+      gap: 10px;
+    }    
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }    
+    .status-new {
+      background: #E0FB52;
+      color: #000;
+    }    
+    .status-old {
+      background: #ccc;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Админ-панель</h1>
+  
+  <!-- Форма добавления/редактирования -->
+  <div class="form-card">
+    <h2 id="formTitle">Добавить товар</h2>
+    <form id="productForm">
+      <input type="hidden" id="productId">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Название товара*</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label>Класс/Характеристика</label>
+          <input type="text" id="class" value="33 класс 6 мм">
+        </div>
+        <div class="form-group">
+          <label>Цена (₽)*</label>
+          <input type="number" id="price" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Старая цена (₽)</label>
+          <input type="number" id="oldPrice">
+        </div>
+        <div class="form-group">
+          <label>Название первого фото</label>
+          <input type="text" id="image1" placeholder="lamin.png">
+        </div>
+        <div class="form-group">
+          <label>Название второго фото</label>
+          <input type="text" id="image2" placeholder="laminat.png">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Дата добавления</label>
+        <input type="date" id="addedAt">
+      </div>
+      
+      <div style="display: flex; gap: 10px;">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="button" id="cancelBtn" class="btn" style="background: #6c757d; color: white;">Отмена</button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Таблица товаров -->
+  <div class="products-table">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Изображение</th>
+          <th>Название</th>
+          <th>Цена</th>
+          <th>Скидка</th>
+          <th>Статус</th>
+          <th>Дата добавления</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody id="productsList"></tbody>
+    </table>
+  </div>
+  
+  <p style="margin-top: 20px; text-align: center;">
+    <a href="index.html" style="color: #000;">Вернуться на главную</a>
+  </p>
+</div>
+
+<script>
+    const DEFAULT_PRODUCTSSS = [
+    {
+        id: Date.now(),
+        name: "SPC ЛАМИНАТ MODULEO LAYRED LAUREL OAK 51864",
+        class: "33 класс 6 мм",
+        price: 1890,
+        oldPrice: 2240,
+        addedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+        images: ["lamin.png", "laminat.png"]
+    },
+    {
+        id: Date.now() + 1,
+        name: "SPC ЛАМИНАТ MODULEO LAYRED CANTERA 46930",
+        class: "33 класс 6 мм",
+        price: 1790,
+        oldPrice: 2170,
+        addedAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+        images: ["parket.png", "lamin.png"]
+    },
+    {
+        id: Date.now() + 2,
+        name: "SPC ЛАМИНАТ MODULEO LAYRED MOUNTAIN OAK 56275",
+        class: "33 класс 6 мм",
+        price: 1850,
+        oldPrice: 2030,
+        addedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+        images: ["laminat.png", "parket.png"]
+    },
+    {
+        id: Date.now() + 3,
+        name: "SPC ЛАМИНАТ MODULEO LAYRED MOUNTAIN OAK 56275",
+        class: "33 класс 6 мм",
+        price: 2000,
+        oldPrice: 1000,
+        addedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
+        images: ["laminat.png", "parket.png"]
+    },
+    {
+        id: Date.now() + 4,
+        name: "SPC ЛАМИНАТ MODULEO LAYRED MOUNTAIN OAK 56275",
+        class: "33 класс 6 мм",
+        price: 2550,
+        oldPrice: 3200,
+        addedAt: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000).toISOString(),
+        images: ["laminat.png", "parket.png"]
+    }
+    ];
+  
+    const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+
+    function isNew(product) {
+        return Date.now() - new Date(product.addedAt).getTime() <= ONE_MONTH_MS;
+    }
+
+    // Проверка новинки
+    function hasSale(product) {
+    return product.oldPrice && product.oldPrice > product.price;
+    }
+
+    // Вычисляем скидочку
+    function calcDiscount(product) {
+    if (!hasSale(product)){
+        return null;
+    }
+    return Math.round((1 - product.price / product.oldPrice) * 100);
+    }  
+    
+    // Форматирование даты
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU');
+    }
+    
+    // Делаем красивую цену
+    function formatPrice(n) {
+        return n.toLocaleString('ru-RU') + ' ₽';
+    }
+
+    function loadProducts() {
+        const saved = localStorage.getItem('qv_products');
+        if (saved) {
+            return JSON.parse(saved);
+        }    
+        localStorage.setItem('qv_products', JSON.stringify(DEFAULT_PRODUCTSSS));
+        return DEFAULT_PRODUCTSSS;
+    }
+    
+    // Сохранение товаров
+    function saveProducts(products) {
+        localStorage.setItem('qv_products', JSON.stringify(products));
+    }
+    
+    // Получение всех товаров
+    function getProducts() {
+        return JSON.parse(localStorage.getItem('qv_products') || '[]');
+    }
+    
+    // Добавление товара
+    function addProduct(product) {
+        const products = getProducts();
+        product.id = Date.now();
+        product.addedAt = product.addedAt || new Date().toISOString();
+        products.push(product);
+        saveProducts(products);
+        renderProducts();
+    }
+    
+    // Обновление товара
+    function updateProduct(id, updatedProduct) {
+        const products = getProducts();
+        const index = products.findIndex(p => p.id == id);
+        if (index !== -1) {
+            updatedProduct.id = id;
+            products[index] = updatedProduct;
+            saveProducts(products);
+            renderProducts();
+        }
+    }
+    
+    // Удаление товара
+    function deleteProduct(id) {
+        if (confirm('Удалить товар?')) {
+            const products = getProducts();
+            const filtered = products.filter(p => p.id != id);
+            saveProducts(filtered);
+            renderProducts();
+        }
+    }
+    
+    // Редактирование товара (заполнение формы)
+    function editProduct(product) {
+        document.getElementById('productId').value = product.id;
+        document.getElementById('name').value = product.name;
+        document.getElementById('class').value = product.class || '';
+        document.getElementById('price').value = product.price;
+        document.getElementById('oldPrice').value = product.oldPrice || '';
+        document.getElementById('image1').value = product.images?.[0] || '';
+        document.getElementById('image2').value = product.images?.[1] || '';
+        document.getElementById('addedAt').value = product.addedAt ? product.addedAt.split('T')[0] : '';
+        document.getElementById('formTitle').textContent = 'Редактировать товар';
+    }
+    
+    // Сброс формы
+    function resetForm() {
+        document.getElementById('productForm').reset();
+        document.getElementById('productId').value = '';
+        document.getElementById('formTitle').textContent = 'Добавить товар';
+    }
+
+    // Отображение таблицы товаров
+    function renderProducts() {
+        const products = getProducts();
+        const tbody = document.getElementById('productsList');
+        tbody.innerHTML = '';
+        
+        products.forEach(product => {
+        const row = tbody.insertRow();
+        const discount = calcDiscount(product);
+        const newItem = isNew(product);
+        const discountText = discount !== null ? `-${discount}%` : '—';
+        
+        row.innerHTML = `
+            <td>${product.id}</td>
+            <td><img src="${product.images?.[0] || ''}" class="product-image" onerror="this.src='placeholder.png'"></td>
+            <td style="max-width: 300px;">${product.name}</td>
+            <td>${formatPrice(product.price)}</td>
+            <td>${discount > 0 ? `-${discount}%` : '—'}</td>
+            <td><span class="status-badge ${newItem ? 'status-new' : 'status-old'}">${newItem ? 'Новинка' : 'Обычный'}</span></td>
+            <td>${formatDate(product.addedAt)}</td>
+            <td class="actions">
+            <button class="btn btn-edit" onclick="editProduct(${JSON.stringify(product).replace(/"/g, '&quot;')})">Редактировать</button>
+            <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Удалить</button>
+            </td>
+        `;
+        });
+    }
+    
+    document.getElementById('productForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const id = document.getElementById('productId').value;
+        const product = {
+        name: document.getElementById('name').value,
+        class: document.getElementById('class').value,
+        price: Number(document.getElementById('price').value),
+        oldPrice: Number(document.getElementById('oldPrice').value) || null,
+        addedAt: document.getElementById('addedAt').value ? new Date(document.getElementById('addedAt').value).toISOString() : new Date().toISOString(),
+        images: [document.getElementById('image1').value || 'placeholder.png', document.getElementById('image2').value || 'placeholder.png']
+        };
+        
+        if (id) {
+            updateProduct(id, product);
+        } else {
+            addProduct(product);
+        }        
+        resetForm();
+    });
+    
+    document.getElementById('cancelBtn').addEventListener('click', resetForm);
+  
+    loadProducts();
+    renderProducts();
+</script>
+</body>
+</html>

@@ -674,6 +674,9 @@
       <div class="swiper-pagination" id="sliderPagination"></div>
     </div>
   </div>
+  <p style="margin-top: 40px; text-align: center;">
+    <a href="admin.html" style="color: #000;">Зайти в админку</a>
+  </p>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -726,22 +729,31 @@ const DEFAULT_PRODUCTS = [
   }
 ];
 
+const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+
+// Проверяем на свежесть карточки/товары
+function isNew(product) {
+  return Date.now() - new Date(product.addedAt).getTime() <= ONE_MONTH_MS;
+}
+
 function loadProducts() {
   const saved = localStorage.getItem('qv_products');
+  let allProducts;
+
   if (saved) {
-    return JSON.parse(saved);
+    allProducts = JSON.parse(saved);
+  }else{
+    allProducts = DEFAULT_PRODUCTS;
+    localStorage.setItem('qv_products', JSON.stringify(DEFAULT_PRODUCTS));
   }
-  localStorage.setItem('qv_products', JSON.stringify(DEFAULT_PRODUCTS));
-  return DEFAULT_PRODUCTS;
+
+  const filterProducts = allProducts.filter(product => isNew(product));  
+
+  return filterProducts;
 }
 
 const products = loadProducts();
 
-const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
-// Проверяем на свежесть карточки/товара
-function isNew(product) {
-  return Date.now() - new Date(product.addedAt).getTime() <= ONE_MONTH_MS;
-}
 // Есть ли вообще у нас скидка
 function hasSale(product) {
   return product.oldPrice && product.oldPrice > product.price;
